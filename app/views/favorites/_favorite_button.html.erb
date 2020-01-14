@@ -1,0 +1,11 @@
+  <% if current_user.liking?(photopost) %>
+    <%= form_with(model: current_user.favorites.find_by(photopost_id: photopost.id), local: true, method: :delete) do |f| %>
+      <%= hidden_field_tag :photopost_id, photopost.id %>
+      <%= f.submit 'いいねを外す', class: 'btn btn-danger' %>
+    <% end %>
+  <% else %>
+    <%= form_with(model: current_user.favorites.build, local: true) do |f| %>
+      <%= hidden_field_tag :photopost_id, photopost.id %>
+      <%= f.submit 'いいね', class: 'btn btn-primary' %>
+    <% end %>
+  <% end %>

@@ -9,9 +9,10 @@
         <div>
           <p><%= photopost.content %></p>
         </div>
-        <div>
+        <div class="d-flex">
+          <%= render 'favorites/favorite_button', photopost: photopost %>
           <% if current_user == photopost.user %>
-            <%= link_to "Delete", photopost, method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger btn-sm' %>
+            <%= link_to "Delete", photopost, method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger ml-1' %>
           <% end %>
         </div>
       </div>
