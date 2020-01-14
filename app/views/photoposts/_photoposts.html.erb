@@ -1,0 +1,21 @@
+<ul class="list-unstyled">
+  <% photoposts.each do |photopost| %>
+    <li class="media mb-3">
+      <img class="mr-2 rounded" src="<%= gravatar_url(photopost.user, { size: 50 }) %>" alt="">
+      <div class="media-body">
+        <div>
+          <%= link_to photopost.user.name, user_path(photopost.user) %> <span class="text-muted">posted at <%= photopost.created_at %></span>
+        </div>
+        <div>
+          <p><%= photopost.content %></p>
+        </div>
+        <div>
+          <% if current_user == photopost.user %>
+            <%= link_to "Delete", photopost, method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger btn-sm' %>
+          <% end %>
+        </div>
+      </div>
+    </li>
+  <% end %>
+  <%= paginate photoposts %>
+</ul>
