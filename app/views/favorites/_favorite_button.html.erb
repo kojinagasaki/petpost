@@ -2,7 +2,7 @@
     <%= form_with(model: current_user.favorites.find_by(photopost_id: photopost.id), local: true, method: :delete) do |f| %>
       <%= hidden_field_tag :photopost_id, photopost.id %>
       <%= button_tag type: 'submit' do %>
-        <i class="far fa-heart unlike-btn" ></i>
+        <i class="fas fa-heart"></i>
         <%= (current_user.favorites.where(photopost_id: photopost.id)).count %>
       <% end %>
     <% end %>
