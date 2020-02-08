@@ -1,18 +1,19 @@
 <ul class="list-unstyled">
   <% photoposts.each do |photopost| %>
     <li class="media mb-3">
-      <img class="mr-2 rounded" src="<%= gravatar_url(photopost.user, { size: 50 }) %>" alt="">
+      <img class="mr-2 rounded-circle" src="<%= gravatar_url(photopost.user, { size: 50 }) %>" alt="">
       <div class="media-body">
         <div>
-          <%= link_to photopost.user.name, user_path(photopost.user) %> <span class="text-muted">posted at <%= photopost.created_at %></span>
+          <%= link_to photopost.user.name, user_path(photopost.user) %> <span class="text-muted">投稿日 <%= photopost.created_at %></span>
         </div>
         <div>
+          <%= image_tag photopost.img.to_s, class: "img-thumbnail"%>
           <p><%= photopost.content %></p>
         </div>
         <div class="d-flex">
           <%= render 'favorites/favorite_button', photopost: photopost %>
           <% if current_user == photopost.user %>
-            <%= link_to "Delete", photopost, method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger ml-1' %>
+            <%= link_to "削除", photopost, method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger ml-1' %>
           <% end %>
         </div>
       </div>

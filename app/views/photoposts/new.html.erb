@@ -1,2 +1,45 @@
-<h1>Photoposts#new</h1>
-<p>Find me in app/views/photoposts/new.html.erb</p>
+<div class="container">
+  <h1 class="text-center mb-5">新規投稿</h1>
+  <%= form_with(model: @photopost, local: true) do |f| %>
+    <div class="form-group row">
+      <div class="col-md-2 d-flex">
+        <%= f.label :img, "写真" %>
+        <div class="ml-3 text-danger">必須</div>
+      </div>
+      <div class="text-center col-md-10">
+        <%= f.file_field :img %>
+      </div>
+    </div>  
+    <div class="form-group">
+      <div class="d-flex">
+        <%= f.label :title, "タイトル" %>
+        <div class="ml-3 text-danger">必須</div>
+      </div>
+      <%= f.text_area :title, class: 'form-control' %>
+    </div>  
+    <div class="form-group">
+      <div class="d-flex">
+        <%= f.label :title, "コメント" %>
+        <div class="ml-3 text-muted">任意</div>
+      </div>
+      <%= f.text_area :content, class: 'form-control' %>
+    </div>
+    <div class="d-flex">
+      <div class="mb-2">カテゴリー</div>
+      <div class="text-muted ml-3">任意</div>
+    </div>
+    <div class="form-group">
+      <%= f.radio_button :category, :dog %>
+      <%= f.label :category, "犬", {value: :dog, style: "display: inline-block;"} %>
+      <%= f.radio_button :category, :cat %>
+      <%= f.label :category, "猫", {value: :cat, style: "display: inline-block;"} %>
+      <%= f.radio_button :category, :other %>
+      <%= f.label :category, "その他", {value: :other, style: "display: inline-block;"} %>
+    </div>
+    <div class="text-center">
+      <%= f.submit '投稿', class: 'btn btn-primary' %>
+    <% end %>
+      <%= link_to '戻る', :back, class: 'btn btn-primary' %>
+    </div>
+</div>
+

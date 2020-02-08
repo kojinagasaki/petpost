@@ -1,22 +1,15 @@
-<% if logged_in? %>
-  <div class="row">
-    <aside class="col-sm-4">
-      <%= form_with(model: @photopost, local: true) do |f| %>
-        <div class="form-group">
-          <%= f.text_area :content, class: 'form-control', rows: 5 %>
-        </div>
-        <%= f.submit 'Post', class: 'btn btn-primary btn-block' %>
-      <% end %>
-    </aside>
-    <div class="col-sm-8">
-      <%= render 'photoposts/photoposts', photoposts: @photoposts %>
-    </div>
+
+<div class="jumbotron text-white" style="height: 600px; background: url(<%= asset_url("dogs.jpg") %>);background-size: cover;">
+  <div class="text-center">
+    <h1>Welcome to the photoposts</h1>
+    <% unless logged_in? %>
+      <%= link_to '会員登録', signup_path, class: 'btn btn-lg btn-primary mt-3' %>
+    <% end %>
   </div>
-<% else %>
-  <div class="center jumbotron">
-    <div class="text-center">
-      <h1>Welcome to the photoposts</h1>
-      <%= link_to 'Sign up now!', signup_path, class: 'btn btn-lg btn-primary' %>
-    </div>
-  </div>
-<% end %>
+</div>
+
+  <h2 class="text-center">新着投稿一覧</h2>
+  <%= render 'photoposts/feed_photoposts', photoposts: @photoposts %>
+  <div class="text-right mr-5">
+  <%= link_to 'もっと見る', photoposts_path %>
+</div>

@@ -1,2 +1,54 @@
-<h1>Photoposts#show</h1>
-<p>Find me in app/views/photoposts/show.html.erb</p>
+<div class="container">
+  <h1><%= @photopost.title %></h1>
+  <%= image_tag @photopost.img.to_s, class: "img-thumbnail"%>
+  <div class="card mb-4">
+  <div class="card-body">
+    <%= @photopost.content %>
+  </div>
+</div>
+  
+  <% if logged_in? %> 
+    <div class="d-flex float-right">
+      <div class="d-flex mr-1">
+        <%= render 'favorites/favorite_button', photopost: @photopost %>
+      </div>
+      <%= render 'relationships/follow_button', user: @user %>
+    </div>
+  <% end %>
+  <h2>コメント一覧</h2>
+
+  
+  <% if @comments.any? %>
+    <% @comments.each do |c| %>
+    <div class="media mt-3">
+      <img class="mr-2 rounded-circle" src="<%= gravatar_url(c.user, { size: 50 }) %>" alt="">
+      <div class="media-body">
+        <div class="mt-1">
+          <%= link_to c.user.name, user_path(c.user) %>さん
+        </div>
+        <div>
+          <%= c.comment %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  <% end %>
+  <div class="form-group mt-4">
+    <% if logged_in? %> 
+      <%= form_with(model: current_user.comments.build, local: true) do |f| %>
+        <%= hidden_field_tag :photopost_id, @photopost.id %>
+        <%= f.text_area :comment, class: 'form-control' %>
+        <div class="text-center mt-2">
+          <%= f.submit 'コメントする', class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+      <% else %>
+      <div class="text-center">
+        <%= link_to 'コメントする', login_path, class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+    
+  </div>
+  <h2>投稿者の最近の投稿</h2>
+  <%= render 'feed_photoposts', photoposts: @photoposts %>
+</div>

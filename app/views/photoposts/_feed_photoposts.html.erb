@@ -1,0 +1,31 @@
+
+<div class="d-flex row">
+      <% photoposts.each do |photopost| %>
+          <div class="col-md-4 mb-4">
+            <div class="border rounded">
+                <%= image_tag photopost.img.to_s, class: "img-thumbnail img-fluid mb-2" %>
+                
+                <div class="media mb-2">
+                  <%= image_tag photopost.user.icon.to_s, class: "rounded-circle", :width => '55', :height => '55' %>
+                  <div class="media-body">
+                      <%= link_to photopost.user.name, user_path(photopost.user),class: "my-auto ml-2" %><span>さん</span>
+                      <div>
+                        <%= link_to photopost.title, photopost_path(photopost), class: 'lead ml-3' %>
+                      </div>
+                  </div>
+                </div>
+              <div class="d-flex mb-2">
+                <% if logged_in? %>
+                  <%= render 'favorites/favorite_button', photopost: photopost %>
+                  
+                <% end %>
+                <% if current_user == photopost.user %>
+                  <%= link_to "削除", photopost, method: :delete, data: { confirm: "削除しますか？" }, class: 'btn-sm btn-danger ml-1' %>
+                <% end %>
+              </div>
+              <span class="text-muted my-auto">投稿日 <%= photopost.created_at.strftime("%Y-%m-%d %H:%M") %></span>
+          </div>
+          </div>
+      <% end %>
+    </div>
+    

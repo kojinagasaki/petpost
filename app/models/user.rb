@@ -7,13 +7,17 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   has_secure_password
   
-  has_many :photoposts
-  has_many :relationships
-  has_many :followings, through: :relationships, source: :follow
-  has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
-  has_many :followers, through: :reverses_of_relationship, source: :user
-  has_many :favorites
-  has_many :likings, through: :favorites, source: :photopost 
+  has_many :photoposts, dependent: :destroy
+  has_many :relationships, dependent: :destroy
+  has_many :followings, through: :relationships, source: :follow, dependent: :destroy
+  has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id', dependent: :destroy
+  has_many :followers, through: :reverses_of_relationship, source: :user, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :likings, through: :favorites, source: :photopost , dependent: :destroy
+  has_many :comments, dependent: :destroy
+  
+  mount_uploader :icon, IconUploader
+  mount_uploader :back_img, BackImgUploader
   
   def follow(other_user)
     unless self == other_user
@@ -34,6 +38,10 @@ class User < ApplicationRecord
     Photopost.where(user_id: self.following_ids + [self.id])
   end
   
+  def feed__followings_photoposts
+    Photopost.where(user_id: self.following_ids)
+  end
+  
   def like(photopost)
     unless self == photopost
       self.favorites.find_or_create_by(photopost_id: photopost.id)
@@ -47,5 +55,9 @@ class User < ApplicationRecord
   
   def liking?(photopost)
     self.likings.include?(photopost)
+  end
+  
+  def comment(photopost)
+      self.comments.find_or_create_by(photopost_id: photopost.id)
   end
 end

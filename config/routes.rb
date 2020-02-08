@@ -12,9 +12,19 @@ Rails.application.routes.draw do
       get :followings
       get :followers
       get :likings
+      get :photoposts
+      get :password
+    end
+    collection do
+      get :search
     end
   end
-  resources :photoposts
+  resources :photoposts do
+  get :search, on: :collection
+  get :ranking, on: :collection
+  get :category, on: :collection
+end
   resources :relationships, only: [:create, :destroy]
   resources :favorites, only: [:create, :destroy]
+  resources :comments, only: [:create, :destroy]
 end
