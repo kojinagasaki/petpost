@@ -16,7 +16,7 @@
     <%= link_to "新規投稿", new_photopost_path, class: 'btn btn-primary' %>
   </div>
 </div>
-<h1 class="text-center">投稿一覧</h1>
+<h1 class="text-center mt-4 mb-4">投稿一覧</h1>
 <%= render 'feed_photoposts', photoposts: @photoposts %>
 <%= paginate @photoposts %>
 
