@@ -6,7 +6,12 @@
                 <%= image_tag photopost.img.to_s, class: "img-thumbnail img-fluid mb-2" %>
                 
                 <div class="media mb-2">
-                  <%= image_tag photopost.user.icon.to_s, class: "rounded-circle", :width => '55', :height => '55' %>
+                  <% if photopost.user.icon.present? %>
+                    <%= image_tag photopost.user.icon.to_s, class: "rounded-circle mx-auto", :width => '55', :height => '55' %>
+                  <% else %>
+                    <img class="rounded-circle" src="<%= gravatar_url(photopost.user, { size: 55 }) %>" alt="">
+                  <% end %>
+                  
                   <div class="media-body">
                       <%= link_to photopost.user.name, user_path(photopost.user),class: "my-auto ml-2" %><span>さん</span>
                       <div>

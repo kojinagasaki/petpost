@@ -2,7 +2,11 @@
   <div class="row">
     <% users.each do |user| %>
       <div class="text-center col-md-3 mt-2">
-        <%= image_tag user.icon.to_s, class: "rounded-circle", :width => '100', :height => '100' %>
+        <% if @user.icon.present? %>
+        <%= image_tag @user.icon.to_s, class: "rounded-circle mx-auto", :width => '100', :height => '100' %>
+      <% else %>
+        <img class="rounded-circle" src="<%= gravatar_url(@user, { size: 70 }) %>" alt="">
+      <% end %>
         <div class="mt-1">
           <%= link_to user.name, user_path(user) %>さん
         </div>
